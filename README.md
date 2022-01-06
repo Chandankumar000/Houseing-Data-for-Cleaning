@@ -2,8 +2,7 @@
 How to clean Dataset Useing  SQL
 /****** For Analysis First Need To clean Data for Better Analyzing ******/
 
-SElECT * 
-FROM HousingData
+> SElECT * FROM HousingData
 
 /*
 Cleaning HousingData in SQL Queries          */
