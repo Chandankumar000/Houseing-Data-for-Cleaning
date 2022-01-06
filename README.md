@@ -1,45 +1,44 @@
 # Houseing-Data-for-Cleaning
 How to clean Dataset Useing  SQL
+
 /****** For Analysis First Need To clean Data for Better Analyzing ******/
+
+First Import Dataset
 
 > SElECT * FROM HousingData
 
-/*
-Cleaning HousingData in SQL Queries          */
+*Cleaning HousingData in SQL Queries    *
 
-SElECT * 
-FROM HousingData
+> SElECT * FROM HousingData
 
 
-/*  Standardize SaleDate Format To Date   */
+**Standardize SaleDate Format To Date   **
 
-Select saleDate, CONVERT(Date,SaleDate)
-From HousingData
+> Select saleDate, CONVERT(Date,SaleDate)
+> From HousingData
 
 
-Update HousingData
-SET SaleDate = CONVERT(Date,SaleDate)
+> Update HousingData
+> SET SaleDate = CONVERT(Date,SaleDate)
 
--- But doesn't Update properly So use Alter First
+__But doesn't Update properly So use Alter First
 
-ALTER TABLE HousingData
-Add SaleDateConverted Date
+> ALTER TABLE HousingData
+> Add SaleDateConverted Date
 
-Update HousingData
-SET SaleDateConverted = CONVERT(Date,SaleDate)
+>> Update HousingData
+>> SET SaleDateConverted = CONVERT(Date,SaleDate)
 
 SElECT * 
 FROM HousingData  
--- All things Done Properly
+__All things Done Properly
 
 
-/* Populate Property Address data          */
+**Populate Property Address data          *
 
-Select *
-From HousingData
---Where PropertyAddress is null
-order by ParcelID
-
+> Select *
+>> From HousingData
+>>> order by ParcelID
 
 
 Select a.ParcelID, a.PropertyAddress, b.ParcelID, b.PropertyAddress, ISNULL(a.PropertyAddress,b.PropertyAddress)
@@ -62,7 +61,7 @@ Where a.PropertyAddress is null
 
 
 
-/* Breaking out Address into Individual Columns (Address, City, State) */
+**Breaking out Address into Individual Columns (Address, City, State)
 
 
 Select PropertyAddress
@@ -142,7 +141,7 @@ From HousingData
 
 
 
-/* Change Y and N to Yes and No in "Sold as Vacant" field      */
+*Change Y and N to Yes and No in "Sold as Vacant" field    
 
 
 Select Distinct(SoldAsVacant), Count(SoldAsVacant)
@@ -173,7 +172,7 @@ SET SoldAsVacant = CASE When SoldAsVacant = 'Y' THEN 'Yes'
 
 
 
-/*  Remove Duplicates             */
+*Remove Duplicates             
 -- First find  pop up duplicate useing row_no 
 -- Then Row_no >1 ko extract then remove
 
@@ -199,7 +198,8 @@ Order by PropertyAddress
 
 
 
--- Here Useing Delete Keywords
+__Here Useing Delete Keywords
+
 WITH RowNumCTE AS(
 Select *,
 	ROW_NUMBER() OVER (
@@ -226,7 +226,7 @@ From HousingData
 
 
 
-/* Useing Dataset  Delete Unused Columns For Preparation               */
+**Useing Dataset  Delete Unused Columns For Preparation               
 
 
 
